@@ -1,0 +1,79 @@
+{
+  "name": "n32g45x",
+  "title": "N32G45X",
+  "description": "Nations N32G45x Series",
+  "homepage": "",
+  "license": "Apache-2.0",
+  "keywords": [
+    "dev-platform",
+    "ARM",
+    "Cortex-M",
+    "N32"
+  ],
+  "engines": {
+    "platformio": "^5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Crazy-Charles/platform-n32g45x.git"
+  },
+  "version": "1.1.1",
+  "frameworks": {
+    "cmsis": {
+      "package": "framework-cmsis",
+      "script": "builder/frameworks/cmsis.py",
+      "description": "The ARM Cortex Microcontroller Software Interface Standard (CMSIS) is a vendor-independent hardware abstraction layer for the Cortex-M processor series and specifies debugger interfaces. The CMSIS enables consistent and simple software interfaces to the processor for interface peripherals, real-time operating systems, and middleware. It simplifies software re-use, reducing the learning curve for new microcontroller developers and cutting the time-to-market for devices",
+      "homepage": "https://developer.arm.com/tools-and-software/embedded/cmsis",
+      "title": "CMSIS"
+    },
+    "arduino": {
+      "package": "framework-arduino-n32g45x",
+      "script": "builder/frameworks/arduino.py",
+      "description": "Arduino Wiring-based Framework allows writing cross-platform software to control devices attached to a wide range of Arduino boards to create all kinds of creative coding, interactive objects, spaces or physical experiences",
+      "homepage": "http://arduino.cc/en/Reference/HomePage",
+      "title": "Arduino"
+    }
+  },
+  "packages": {
+    "toolchain-gccarmnoneeabi": {
+      "type": "toolchain",
+      "owner": "platformio",
+      "version": ">=1.60301.0,<1.80000.0",
+      "optionalVersions": [
+        "~1.60301.0",
+        "~1.80201.0",
+        "~1.90201.0"
+      ]
+    },
+    "framework-cmsis": {
+      "type": "framework",
+      "optional": true,
+      "owner": "platformio",
+      "version": "~2.50501.0",
+      "optionalVersions": [
+        "~2.50700.0"
+      ]
+    },
+    "framework-arduino-n32g45x": {
+      "type": "framework",
+      "version": "https://github.com/Crazy-Charles/Arduino_Core_STM32_N32.git"
+    },
+    "tool-openocd": {
+      "type": "uploader",
+      "optional": true,
+      "owner": "platformio",
+      "version": "~2.1100.0"
+    },
+    "tool-jlink": {
+      "type": "uploader",
+      "optional": true,
+      "owner": "platformio",
+      "version": "^1.63208.0"
+    },
+    "tool-ldscripts-ststm32": {
+      "optional": true,
+      "owner": "platformio",
+      "version": "~0.2.0"
+    }
+  }
+}

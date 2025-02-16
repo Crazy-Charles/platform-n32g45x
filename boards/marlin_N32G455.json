@@ -1,0 +1,24 @@
+{
+  "name": "Nations N32G45x Series",
+  "url": "https://www.nationstech.com/product/General/cortexm4/N32G45x/",
+  "vendor": "NationsTech",
+  "frameworks": [
+    "arduino",
+    "cmsis"
+  ],
+  "build": {
+    "cpu": "cortex-m4",
+    "f_cpu": "144000000L",
+    "variant": "marlin_N32G455"
+  },
+  "debug": {
+    "jlink_device": "N32G455RE",
+    "svd_path": "N32G455.svd"
+  },
+
+  "upload": {
+    "maximum_ram_size": 131072,
+    "maximum_size": 524288
+  }
+
+}
