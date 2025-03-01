@@ -26,38 +26,26 @@ class N32g45xPlatform(PlatformBase):
     def configure_default_packages(self, variables, targets):
         board = variables.get("board")
         board_config = self.board_config(board)
-        build_core = variables.get(
-            "board_build.core", board_config.get("build.core", "arduino"))
-        build_mcu = variables.get("board_build.mcu", board_config.get("build.mcu", ""))
+        #build_core = variables.get(
+        #    "board_build.core", board_config.get("build.core", "arduino"))
+        #build_mcu = variables.get("board_build.mcu", board_config.get("build.mcu", ""))
 
         frameworks = variables.get("pioframework", [])
         if "arduino" in frameworks:
-            if board.startswith("portenta"):
-                self.frameworks["arduino"]["package"] = "framework-arduino-mbed"
-                self.frameworks["arduino"][
-                    "script"
-                ] = "builder/frameworks/arduino/mbed-core/arduino-core-mbed.py"
-                self.packages["framework-arduinoststm32"]["optional"] = True
-            elif build_core == "n32":
                 self.frameworks["arduino"]["package"] = "framework-arduino-n32g45x"
-                self.packages["framework-arduino-n32g45x"]["optional"] = True
-            else:
+                self.packages["framework-arduino-n32g45x"]["optional"] = False
                 self.packages["toolchain-gccarmnoneeabi"]["version"] = "~1.90201.0"
                 self.packages["framework-cmsis"]["version"] = "~2.50700.0"
                 self.packages["framework-cmsis"]["optional"] = False
 
-        if "cmsis" in frameworks:
-            assert build_mcu, ("Missing MCU field for %s" % board)
-            device_package = "framework-cmsis-" + build_mcu[0:7]
-            if device_package in self.packages:
-                self.packages[device_package]["optional"] = False
+        #if "cmsis" in frameworks:
+        #    assert build_mcu, ("Missing MCU field for %s" % board)
+        #    device_package = "framework-cmsis-" + build_mcu[0:7]
+        #    if device_package in self.packages:
+        #        self.packages[device_package]["optional"] = False
 
-        if any(f in frameworks for f in ("cmsis", "stm32cube")):
-            self.packages["tool-ldscripts-ststm32"]["optional"] = False
-
-        default_protocol = board_config.get("upload.protocol") or ""
-        if variables.get("upload_protocol", default_protocol) == "dfu":
-            self.packages["tool-dfuutil"]["optional"] = False
+        #if any(f in frameworks for f in ("cmsis", "stm32cube")):
+        #    self.packages["tool-ldscripts-ststm32"]["optional"] = False
 
         # configure J-LINK tool
         jlink_conds = [
@@ -95,15 +83,10 @@ class N32g45xPlatform(PlatformBase):
             debug["tools"] = {}
 
         # BlackMagic, J-Link, ST-Link
-        for link in ("blackmagic", "jlink", "stlink", "cmsis-dap"):
+        for link in ("jlink"):
             if link not in upload_protocols or link in debug["tools"]:
                 continue
-            if link == "blackmagic":
-                debug["tools"]["blackmagic"] = {
-                    "hwids": [["0x1d50", "0x6018"]],
-                    "require_debug_port": True
-                }
-            elif link == "jlink":
+            if link == "jlink":
                 assert debug.get("jlink_device"), (
                     "Missed J-Link Device ID for %s" % board.id)
                 debug["tools"][link] = {
@@ -154,11 +137,7 @@ class N32g45xPlatform(PlatformBase):
     def configure_debug_session(self, debug_config):
         if debug_config.speed:
             server_executable = (debug_config.server or {}).get("executable", "").lower()
-            if "openocd" in server_executable:
-                debug_config.server["arguments"].extend(
-                    ["-c", "adapter speed %s" % debug_config.speed]
-                )
-            elif "jlink" in server_executable:
+            if "jlink" in server_executable:
                 debug_config.server["arguments"].extend(
                     ["-speed", debug_config.speed]
                 )

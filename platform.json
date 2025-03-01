@@ -58,22 +58,11 @@
       "type": "framework",
       "version": "https://github.com/Crazy-Charles/Arduino_Core_STM32_N32.git"
     },
-    "tool-openocd": {
-      "type": "uploader",
-      "optional": true,
-      "owner": "platformio",
-      "version": "~2.1100.0"
-    },
     "tool-jlink": {
       "type": "uploader",
       "optional": true,
       "owner": "platformio",
       "version": "^1.63208.0"
-    },
-    "tool-ldscripts-ststm32": {
-      "optional": true,
-      "owner": "platformio",
-      "version": "~0.2.0"
     }
   }
 }

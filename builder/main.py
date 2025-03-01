@@ -8,26 +8,6 @@ from SCons.Script import (ARGUMENTS, COMMAND_LINE_TARGETS, AlwaysBuild,
 
 from platformio.public import list_serial_ports
 
-
-def BeforeUpload(target, source, env):  # pylint: disable=W0613,W0621
-    env.AutodetectUploadPort()
-
-    upload_options = {}
-    if "BOARD" in env:
-        upload_options = env.BoardConfig().get("upload", {})
-
-    if not bool(upload_options.get("disable_flushing", False)):
-        env.FlushSerialBuffer("$UPLOAD_PORT")
-
-    before_ports = list_serial_ports()
-
-    if bool(upload_options.get("use_1200bps_touch", False)):
-        env.TouchSerialPort("$UPLOAD_PORT", 1200)
-
-    if bool(upload_options.get("wait_for_upload_port", False)):
-        env.Replace(UPLOAD_PORT=env.WaitForNewSerialPort(before_ports))
-
-
 env = DefaultEnvironment()
 platform = env.PioPlatform()
 board = env.BoardConfig()
@@ -131,7 +111,7 @@ if upload_protocol.startswith("jlink"):
         commands = [
             "h",
             "loadbin %s, %s" % (source, board.get(
-                "upload.offset_address", "0x08000000")),
+                "upload.offset_address", "")),
             "r",
             "q"
         ]
