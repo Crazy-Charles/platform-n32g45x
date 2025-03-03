@@ -9,7 +9,8 @@
   "build": {
     "cpu": "cortex-m4",
     "f_cpu": "144000000L",
-    "variant": "marlin_N32G455"
+    "variant": "generic_n32g455",
+    "mcu": "N32G455REL7"
   },
   "debug": {
     "jlink_device": "N32G455RE",
@@ -18,7 +19,10 @@
 
   "upload": {
     "maximum_ram_size": 131072,
-    "maximum_size": 524288
+    "maximum_size": 524288,
+    "protocol": "jlink",
+    "protocols": [
+      "jlink"
+    ]
   }
-
 }
